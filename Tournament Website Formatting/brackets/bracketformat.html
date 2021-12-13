@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Tournament Bracket Generator</title>
+  <link rel="stylesheet" href="./formatstyle.css">
+
+</head>
+<body>
+<div class="brackets" id="brackets"></div>
+<section id = "allFormatting">
+  <h1>Type the names of the participants in the following box. <BR> (One name on each line)</h1>
+  <div class="startBox"> 
+    <textarea rows = "6" cols = "30" placeholder = "Type Here..." id = "contestantBox" style = "background-color: #282A33; color: white"></textarea>
+  </div>
+  <div id="add" class="metroBtn">Generate</div>
+</section>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src='https://underscorejs.org/underscore-min.js'></script>
+<!-- <script  src="./formatscript.js"></script> -->
+
+ <div class = "tournament"></div>
+<script type="text/javascript" src="jquery-bracket/dist/jquery.bracket.min.js"></script>
+<link rel="stylesheet" type="text/css" href="jquery-bracket/dist/jquery.bracket.min.css" />
+<script>
+  // runs when you click generate button
+  $('#add').on('click', function() {
+  var saveData = {
+    teams : [],
+    results : []
+  }
+
+  // takes teams from input box
+  var lines = $("#contestantBox").val();
+  var lineArr = lines.split('\n');
+	for(var i = 0; i < lineArr.length; i = i + 2) {
+    if (lineArr[i + 1] == undefined) {
+        lineArr[i + 1] = null; }
+      const matchPair = [[lineArr[i], lineArr[i + 1]]];
+      saveData.teams = saveData.teams.concat(matchPair);
+    }
+    if (saveData.teams.length % 2 != 0) {
+      const holderArr = [[null, null]];
+      saveData.teams = saveData.teams.concat(holderArr);
+    }
+    console.log(saveData.teams);
+    $('#allFormatting').html(""); 
+ 
+  // saves edits      
+  function saveFn(data, userData) {
+  var json = JSON.stringify(data)
+    // future data storage
+  /* $('#saveOutput').text('POST '+userData+' '+json)
+   jQuery.ajax("url"+userData, {contentType: 'application/json',
+                                dataType: 'json',
+                                type: 'post',
+                                data: json})
+  */
+}
+
+// initializes bracket
+$(function() {
+  var container = $('.tournament')
+  container.bracket({
+    init: saveData,
+    save: saveFn,
+    skipConsolationRound: true,
+    // future data storage
+    userData: null
+  })
+})
+  });
+</script>
+</body>
+</html>
