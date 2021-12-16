@@ -1,1 +1,3 @@
-pretty cool to-be website using pretty cool math
+very cool code does very cool things
+
+(index.html is main)
