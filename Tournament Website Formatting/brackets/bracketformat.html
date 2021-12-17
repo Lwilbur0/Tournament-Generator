@@ -61,6 +61,7 @@
 // initializes bracket
 $(function() {
   var container = $('.tournament')
+  try {
   container.bracket({
     init: saveData,
     save: saveFn,
@@ -68,6 +69,22 @@ $(function() {
     // future data storage
     userData: null
   })
+}
+// in case of odd number of pairings (last grouping would only have one pairing to funnel into next round)
+catch(e){
+  if(e){
+  const holderArr = [[null, null]];
+  saveData.teams = saveData.teams.concat(holderArr);
+    container.bracket({
+    init: saveData,
+    save: saveFn,
+    skipConsolationRound: true,
+    // future data storage
+    userData: null
+  })
+   
+  }
+}
 })
   });
 </script>
